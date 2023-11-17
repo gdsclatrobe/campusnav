@@ -1,3 +1,5 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +13,26 @@
   <iframe id="nav" src="html/nav.html" title="Navigation"></iframe>
   <iframe src="map/map.html" title="La Trobe University Map"></iframe>
   <iframe id="footer" src="html/footer.html" title="Footer"></iframe>
+  <iframe id="alert" src="html/alert.html" title="Alert" style="display: none;"></iframe>
+
+  <script>
+    // Set a timeout to show the alert iframe after 5 seconds if location is not shared
+    const timeoutId = setTimeout(function () {
+      document.getElementById("alert").style.display = "block";
+    }, 5000);
+
+    // Check if the user's location is available
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        // Clear the timeout if the location is shared before the timeout
+        clearTimeout(timeoutId);
+      },
+      function (error) {
+        // Show the alert iframe only if the location is not shared
+        document.getElementById("alert").style.display = "block";
+      }
+    );
+  </script>
 
 </body>
 </html>
