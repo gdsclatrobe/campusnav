@@ -91,6 +91,19 @@
 
   // Call the function to show user location
   showUserLocation(map);
+
+  window.addEventListener('message', function (event) {
+    if (event.data.type === "updateMap") {
+      const longitude = event.data.longitude;
+
+      // Use the longitude value to add a marker to the map
+      const marker = L.marker([findLatitude.innerHTML, longitude]).addTo(map);
+      marker.bindPopup("Search Result").openPopup();
+
+      // Center the map on the marker
+      map.panTo([findLatitude.innerHTML, longitude]);
+    }
+  });
 </script>
 
 </body>
