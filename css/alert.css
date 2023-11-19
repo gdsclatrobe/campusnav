@@ -4,15 +4,15 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    font-family: 'Roboto', sans-serif; /* Use Roboto font */
+    font-family: 'Roboto', sans-serif;
     background-color: transparent;
 }
 
 #message-container {
     text-align: center;
     background-color: #fff;
-    border-radius: 20px; /* Rounded edges */
-    box-shadow: 0px 0px 1000px rgb(0, 0, 0); /* Shadow effect */
+    border-radius: 20px;
+    box-shadow: 0px 0px 1000px rgb(0, 0, 0);
     padding: 20px;
 }
 
@@ -23,11 +23,11 @@ body {
 #action-button {
     padding: 10px 20px;
     border: 2px solid #000;
-    border-radius: 20px; /* Rounded edges */
+    border-radius: 20px;
     background-color: transparent;
     color: #000;
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth transition on background-color change */
+    transition: background-color 0.3s ease;
 }
 
 #action-button:hover {

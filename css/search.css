@@ -1,0 +1,104 @@
+.main_container {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    top: 35%;
+    right: 0%;
+    transform: translateX(-50%);
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5%;
+    background-color: white;
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.639);
+}
+
+.container1{
+    padding: 0px;
+}
+
+/* margin-top for container2 to create a small gap */
+.container2 {
+    margin-top: 10px;
+    padding: 0px;
+    padding-top: 5px;;
+}
+
+/* Styles for the buttons container */
+.buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+/* Styles for the buttons */
+.buttons button {
+    padding: 10px 20px;
+    margin: 10px;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    background-color: transparent;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Styles for the Satelite View and Street View buttons */
+#satellite,
+#street {
+    border-color: #4285F4 #0F9D58 #F4B400 #DB4437;
+    background-color: transparent;
+}
+
+/* Hover effect for the Satelite and Street buttons */
+#satellite:hover,
+#street:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* Styles for the search container */
+.searchcontainer {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+/* Styles for the search bar */
+#searchbar {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-color: #4285F4;
+    border-radius: 20px;
+    flex: 1;
+}
+
+/* Styles for the search button */
+#searchbutton {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: transparent;
+    background-image: url('../img/search_icon.png');
+    background-size: cover;
+    border: none;
+    margin-left: 10px;
+}
+
+#searchbutton:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Adjust the values as needed */
+}
+
+/* Media query for smaller devices */
+@media (max-width: 950px) {
+    .main_container {
+        left: 50%;
+        right: 0;
+        max-width: 800px;
+    }
+}

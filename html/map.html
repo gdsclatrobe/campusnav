@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../leaflet/leaflet.css">
+  <link rel="stylesheet" href="../css/map.css">
+  <script src="../leaflet/leaflet.js"></script>
+  <script src="../leaflet/leaflet.rotatedMarker.js"></script>
+  <title>La Trobe University Map</title>
+  <style>
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .custom-zoom-control {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+    }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script>
+  function showUserLocation(map) {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.watchPosition(
+        // Success callback
+        function (position) {
+          const { latitude, longitude, heading } = position.coords;
+
+          // Clear previous user location marker
+          if (map.userLocation) {
+            map.removeLayer(map.userLocation);
+          }
+
+          // Default arrow icon with rotation
+          const userLocation = L.marker([latitude, longitude], { rotationAngle: heading }).addTo(map);
+          userLocation.bindPopup("You are here!").openPopup();
+          
+          // flyTo for a smooth animated transition only for the first update
+          if (!map.userLocation) {
+            map.flyTo([latitude, longitude], 18);
+          }
+
+          // Store the user location marker in the map object for future updates
+          map.userLocation = userLocation;
+        },
+        // Error callback
+        function (error) {
+          // Communicate with the parent window to show alert.html
+          window.parent.postMessage("showAlert", "*");
+        }
+      );
+    } else {
+      // Communicate with the parent window to show alert.html
+      window.parent.postMessage("showAlert", "*");
+    }
+  }
+
+  // Create the map
+  var map = L.map('map', {
+    center: [-37.721062, 145.049778],
+    zoom: 16,
+    maxZoom: 18,
+    minZoom: 16,
+    zoomControl: false // Disable default zoom control
+  });
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Add zoom control to the map with customized position
+  var zoomControl = L.control.zoom({
+    position: 'topleft' // This will be overridden by manual positioning
+  }).addTo(map);
+
+  // Use manual positioning for the zoom control
+  var customZoomControl = zoomControl.getContainer();
+  customZoomControl.classList.add('custom-zoom-control');
+  map.getContainer().appendChild(customZoomControl);
+
+  // Call the function to show user location
+  showUserLocation(map);
+</script>
+
+</body>
+</html>

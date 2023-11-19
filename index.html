@@ -6,33 +6,38 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/search.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+
   <title>CampusNav - GDSC LTU</title>
 </head>
 <body>
 
-  <iframe id="nav" src="html/nav.html" title="Navigation"></iframe>
-  <iframe src="map/map.html" title="La Trobe University Map"></iframe>
-  <iframe id="footer" src="html/footer.html" title="Footer"></iframe>
-  <iframe id="alert" src="html/alert.html" title="Alert" style="display: none;"></iframe>
+  <div class="main_container">
+    <div class="container container1">
+        <h3>Search</h3>
+    </div>
+    <div class="container container2">
+        <div class="buttons">
+            <button id="satellite">Satellite View</button>
+            <button id="street">Street View</button>
+        </div>
+        <div class="searchcontainer">
+            <input type="text" id="searchbar" placeholder="Navigate Campus?">
+            <button id="searchbutton"></button>
+        </div>
+    </div>
+</div>
 
-  <script>
-    // Set a timeout to show the alert iframe after 5 seconds if location is not shared
-    const timeoutId = setTimeout(function () {
-      document.getElementById("alert").style.display = "block";
-    }, 5000);
 
-    // Check if the user's location is available
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        // Clear the timeout if the location is shared before the timeout
-        clearTimeout(timeoutId);
-      },
-      function (error) {
-        // Show the alert iframe only if the location is not shared
-        document.getElementById("alert").style.display = "block";
-      }
-    );
-  </script>
+  <div class="iframes">
+    <iframe id="nav" src="html/nav.html" title="Navigation" allowfullscreen></iframe>
+    <iframe src="html/map.html" title="La Trobe University Map" allowfullscreen></iframe>
+    <iframe id="footer" src="html/footer.html" title="Footer" allowfullscreen></iframe>
+    <iframe id="alert" src="html/alert.html" title="Alert" style="display: none;" allowfullscreen></iframe>
+  </div>
+
+  <script src="js/script.js"></script>
 
 </body>
 </html>
