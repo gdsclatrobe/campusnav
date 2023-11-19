@@ -1,7 +1,6 @@
-<!-- index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,33 +10,109 @@
 
   <title>CampusNav - GDSC LTU</title>
 </head>
+
 <body>
 
   <div class="main_container">
+
     <div class="container container1">
-        <h3>Search</h3>
+      <h3>Search</h3>
     </div>
+
     <div class="container container2">
-        <div class="buttons">
-            <button id="satellite">Satellite View</button>
-            <button id="street">Street View</button>
-        </div>
-        <div class="searchcontainer">
-            <input type="text" id="searchbar" placeholder="Navigate Campus?">
-            <button id="searchbutton"></button>
-        </div>
+      <div class="buttons">
+        <button id="satellite">Satellite View</button>
+        <button id="street">Street View</button>
+      </div>
+      <div class="searchcontainer">
+        <input type="text" id="findName" placeholder="Navigate Campus">
+        <button id="find"></button>
+      </div>
+      <p id="findNameResult" type="text"></p>
     </div>
-</div>
+    
+  </div>
 
-
-  <!-- <div class="iframes">
+  <div class="iframes">
     <iframe id="nav" src="html/nav.html" title="Navigation" allowfullscreen></iframe>
     <iframe src="html/map.html" title="La Trobe University Map" allowfullscreen></iframe>
     <iframe id="footer" src="html/footer.html" title="Footer" allowfullscreen></iframe>
     <iframe id="alert" src="html/alert.html" title="Alert" style="display: none;" allowfullscreen></iframe>
-  </div> -->
+  </div>
 
-  <script src="js/script.js"></script>
+  <script type="module">
+    // Firebase SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-analytics.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCdo9hT8myr6Qvy9bqBKNPUCGY22g_3pjk",
+        authDomain: "campusnav-gdscltu.firebaseapp.com",
+        databaseURL: "https://campusnav-gdscltu-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "campusnav-gdscltu",
+        storageBucket: "campusnav-gdscltu.appspot.com",
+        messagingSenderId: "256287626307",
+        appId: "1:256287626307:web:833de0c265d6f05adf70f6",
+        measurementId: "G-DMFP5XBSPE"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+
+    import { getDatabase, ref, get, set, child, update, remove }
+    from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
+
+    const db = getDatabase();
+
+    var enterName = document.querySelector("#enterName");
+    var enterLongitude = document.querySelector("#enterLongitude");
+    var enterLatitude = document.querySelector("#enterLatitude");
+    var enterImageLink = document.querySelector("#enterImageLink");
+    var enterComment = document.querySelector("#enterComment");
+    var findName = document.querySelector("#findName");
+    var findNameResult = document.querySelector("#findNameResult");
+    var findLongitude = document.querySelector("#findLongitude");
+    var findLatitude = document.querySelector("#findLatitude");
+    var findImageLink = document.querySelector("#findImageLink");
+    var findComment = document.querySelector("#findComment");
+
+    var findBtn = document.querySelector("#find");
+
+    function FindData() {
+      const searchTerm = findName.value.trim();
+
+      // Check if the search term is empty
+      if (searchTerm === '') {
+        findNameResult.innerHTML = "No Locations entered";
+        return; 
+      }
+
+      const dbref = ref(db);
+
+      get(child(dbref, "Locations/" + searchTerm))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            // Found a matching location
+            findNameResult.innerHTML = snapshot.key;
+            findLongitude.innerHTML = snapshot.val().Longitude;
+            findLatitude.innerHTML = snapshot.val().Latitude;
+            findImageLink.innerHTML = snapshot.val().ImageLink;
+            findComment.innerHTML = snapshot.val().Comment;
+          } else {
+            // No matching location found
+            findNameResult.innerHTML = "No results found";
+          }
+        })
+        .catch((error) => {
+          console.error(error); // Handle errors in the console
+        });
+    }
+
+    findBtn.addEventListener('click', FindData);
+
+  </script>
 
 </body>
+
 </html>
