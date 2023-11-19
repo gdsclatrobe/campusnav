@@ -6,6 +6,7 @@
     top: 35%;
     right: 0%;
     transform: translateX(-50%);
+
 }
 
 .container {
@@ -22,13 +23,16 @@
 
 .container1{
     padding: 0px;
+    position: relative;
 }
 
 /* margin-top for container2 to create a small gap */
 .container2 {
     margin-top: 10px;
-    padding: 0px;
-    padding-top: 5px;;
+    width: auto;
+    min-width: 210px;
+    height: 150px;
+    padding: 20px;
 }
 
 /* Styles for the buttons container */
@@ -100,5 +104,11 @@
         left: 50%;
         right: 0;
         max-width: 800px;
+    }
+}
+
+@media (max-width: 510px) {
+    .container1 {
+        width: 250px;
     }
 }
