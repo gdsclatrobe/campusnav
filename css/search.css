@@ -95,7 +95,7 @@
 }
 
 #searchbutton:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Adjust the values as needed */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
 
 /* Media query for smaller devices */
