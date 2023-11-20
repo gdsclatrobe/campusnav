@@ -80,7 +80,7 @@
       // Check if the search term is empty
       if (searchTerm === '') {
         findNameResult.innerHTML = "No Locations entered";
-        return;
+        return; 
       }
 
       const dbref = ref(db);
@@ -94,12 +94,6 @@
             findLatitude.innerHTML = snapshot.val().Latitude;
             findImageLink.innerHTML = snapshot.val().ImageLink;
             findComment.innerHTML = snapshot.val().Comment;
-
-            // Send longitude to map.html
-            window.parent.postMessage({
-              type: "updateMap",
-              longitude: snapshot.val().Longitude
-            }, "*");
           } else {
             // No matching location found
             findNameResult.innerHTML = "No results found";
