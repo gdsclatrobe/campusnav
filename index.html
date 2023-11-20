@@ -13,26 +13,28 @@
 
 <body>
 
-  <div class="main_container">
+  <div class="main_container" id="mainContainer">
 
     <div class="container container1">
-      <h3>Search</h3>
-      <img class="close" src="img/close.jpg">
+        <h3>Search</h3>
+        <img class="close" src="img/close.jpg" onclick="toggleContainer()">
     </div>
 
     <div class="container container2">
-      <div class="buttons">
-        <button id="satellite">Satellite View</button>
-        <button id="street">Street View</button>
-      </div>
-      <div class="searchcontainer">
-        <input type="text" id="findName" placeholder="Navigate Campus">
-        <button id="find"></button>
-      </div>
-      <p id="findNameResult" type="text"></p>
+        <div class="buttons">
+            <button id="satellite">Satellite View</button>
+            <button id="street">Street View</button>
+        </div>
+        <div class="searchcontainer">
+            <input type="text" id="findName" placeholder="Navigate Campus">
+            <button id="find"></button>
+        </div>
+        <p id="findNameResult" type="text"></p>
     </div>
-
+    
   </div>
+
+  <img id="mainSearchImage" src="img/search_main.png" onclick="toggleContainer()" class="hidden">
 
   <div class="iframes">
     <iframe id="nav" src="html/nav.html" title="Navigation" allowfullscreen></iframe>
@@ -108,6 +110,7 @@
     findBtn.addEventListener('click', FindData);
 
   </script>
+  <script src="js/close_toggle.js"></script>
 
 </body>
 
