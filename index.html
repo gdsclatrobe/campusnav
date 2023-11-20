@@ -83,22 +83,40 @@
       // Check if the search term is empty
       if (searchTerm === '') {
         findNameResult.innerHTML = "No Locations entered";
-        return; 
+        return;
       }
 
       const dbref = ref(db);
 
-      get(child(dbref, "Locations/" + searchTerm))
+      // Fetch all data under "Locations" node
+      get(child(dbref, "Locations"))
         .then((snapshot) => {
           if (snapshot.exists()) {
-            // Found a matching location
-            findNameResult.innerHTML = snapshot.key;
-            findLongitude.innerHTML = snapshot.val().Longitude;
-            findLatitude.innerHTML = snapshot.val().Latitude;
-            findImageLink.innerHTML = snapshot.val().ImageLink;
-            findComment.innerHTML = snapshot.val().Comment;
+            // Convert snapshot to an array of objects
+            const locations = Object.entries(snapshot.val()).map(([key, value]) => ({
+              key,
+              ...value
+            }));
+
+            // Filter locations based on the partial search term
+            const filteredLocations = locations.filter(location =>
+              location.key.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            if (filteredLocations.length > 0) {
+              // Found matching locations
+              const firstResult = filteredLocations[0];
+              findNameResult.innerHTML = firstResult.key;
+              findLongitude.innerHTML = firstResult.Longitude;
+              findLatitude.innerHTML = firstResult.Latitude;
+              findImageLink.innerHTML = firstResult.ImageLink;
+              findComment.innerHTML = firstResult.Comment;
+            } else {
+              // No matching location found
+              findNameResult.innerHTML = "No results found";
+            }
           } else {
-            // No matching location found
+            // No data under "Locations" node
             findNameResult.innerHTML = "No results found";
           }
         })

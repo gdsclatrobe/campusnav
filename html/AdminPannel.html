@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shyalan - Admin Panel</title>
+
+    <link rel="stylesheet" href="../css/AdminPannel.css">
+    <link rel="icon" href="../img/favicon.png" type="image/png">
+</head>
+
+<body>
+    <div id="enterDetails">
+        <h1>Enter details</h1>
+
+        <h4>Name</h4>
+        <input id="enterName" type="text">
+
+        <h4>Longitude</h4>
+        <input id="enterLongitude" type="text">
+
+        <h4>Latitude</h4>
+        <input id="enterLatitude" type="text">
+
+        <h4>Image Link</h4>
+        <input id="enterImageLink" type="text">
+
+        <h4>Comment</h4>
+        <input id="enterComment" type="text"> <br><br>
+
+        <button id="insert">INSERT</button>
+        <button id="update">UPDATE</button>
+        <button id="remove">REMOVE</button> <br><br>
+    </div>
+
+    <div id="findDetails">
+        <h1>Search:</h1>
+        <h4>Name</h4>
+        <input id="findName" type="text"> <br><br>
+        <button id="find">FIND</button>
+        <h3 id="findNameResult" type="text"></h3>
+        <h3 id="findLongitude" type="text"></h3>
+        <h3 id="findLatitude" type="text"></h3>
+        <h3 id="findImageLink" type="text"></h3>
+        <h3 id="findComment" type="text"></h3> <br><br>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-analytics.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCdo9hT8myr6Qvy9bqBKNPUCGY22g_3pjk",
+    authDomain: "campusnav-gdscltu.firebaseapp.com",
+    databaseURL: "https://campusnav-gdscltu-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "campusnav-gdscltu",
+    storageBucket: "campusnav-gdscltu.appspot.com",
+    messagingSenderId: "256287626307",
+    appId: "1:256287626307:web:833de0c265d6f05adf70f6",
+    measurementId: "G-DMFP5XBSPE"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+import { getDatabase, ref, get, set, child, update, remove }
+from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
+
+const db = getDatabase();
+
+var enterName = document.querySelector("#enterName");
+var enterLongitude = document.querySelector("#enterLongitude");
+var enterLatitude = document.querySelector("#enterLatitude");
+var enterImageLink = document.querySelector("#enterImageLink");
+var enterComment = document.querySelector("#enterComment");
+var findName = document.querySelector("#findName");
+var findNameResult = document.querySelector("#findNameResult");
+var findLongitude = document.querySelector("#findLongitude");
+var findLatitude = document.querySelector("#findLatitude");
+var findImageLink = document.querySelector("#findImageLink");
+var findComment = document.querySelector("#findComment");
+
+var insertBtn = document.querySelector("#insert");
+var updateBtn = document.querySelector("#update");
+var removeBtn = document.querySelector("#remove");
+var findBtn = document.querySelector("#find");
+
+function InsertData() {
+    set(ref(db, "Locations/" + enterName.value), {
+            Longitude: enterLongitude.value,
+            Latitude: enterLatitude.value,
+            ImageLink: enterImageLink.value,
+            Comment: enterComment.value
+        })
+        .then(() => {
+            alert("Data added successfully");
+        })
+        .catch((error) => {
+            alert(error);
+        });
+}
+
+function FindData() {
+    const searchTerm = findName.value;
+    const query = ref(db, "Locations/");
+    get(query)
+        .then((snapshot) => {
+        const locations = snapshot.val();
+        let results = [];
+        for (const locationName in locations) {
+            if (new RegExp(searchTerm, "i").test(locationName)) {
+            results.push({
+                name: locationName,
+                longitude: locations[locationName].Longitude,
+                latitude: locations[locationName].Latitude,
+                imageLink: locations[locationName].ImageLink,
+                comment: locations[locationName].Comment,
+            });
+            }
+        }
+
+        if (results.length) {
+            findNameResult.innerHTML = "Results found:";
+            results.forEach((result) => {
+            findNameResult.innerHTML += `\n<br>Name: ${result.name}`;
+            findLongitude.innerHTML = `Longitude: ${result.longitude}`;
+            findLatitude.innerHTML = `Latitude: ${result.latitude}`;
+            findImageLink.innerHTML = `Image Link: ${result.imageLink}`;
+            findComment.innerHTML = `Comment: ${result.comment}`;
+            });
+        } else {
+            alert("No data found matching the search term.");
+        }
+        })
+        .catch((error) => {
+        alert(error);
+        });
+    }
+
+
+function UpdateData() {
+    update(ref(db, "Locations/" + enterName.value), {
+            Longitude: enterLongitude.value,
+            Latitude: enterLatitude.value,
+            ImageLink: enterImageLink.value,
+            Comment: enterComment.value
+        })
+        .then(() => {
+            alert("Data updated successfully");
+        })
+        .catch((error) => {
+            alert(error);
+        });
+}
+
+function RemoveData() {
+    remove(ref(db, "Locations/" + enterName.value))
+        .then(() => {
+            alert("Data deleted successfully");
+        })
+        .catch((error) => {
+            alert(error);
+        });
+}
+
+insertBtn.addEventListener('click', InsertData);
+updateBtn.addEventListener('click', UpdateData);
+removeBtn.addEventListener('click', RemoveData);
+findBtn.addEventListener('click', FindData);
+    </script>
+
+</body>
+
+</html>
