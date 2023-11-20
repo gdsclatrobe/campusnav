@@ -11,6 +11,7 @@
   <style>
     #map {
       position: absolute;
+      font-family: 'Roboto', sans-serif;
       top: 0;
       bottom: 0;
       left: 0;
@@ -23,76 +24,122 @@
       left: 10px;
       transform: translateY(-50%);
     }
+
+    .marker-container {
+      font-family: 'Roboto', sans-serif;
+      position: absolute;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(1, 2, 1, 0.715);
+      width: auto;
+      height: auto;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -155%);
+    }
+
+    .marker-image {
+      
+      position: relative;
+      height: 100px;
+      width: auto;
+      border-radius: 8px;
+    }
+
+
   </style>
 </head>
 <body>
 
 <div id="map"></div>
 
-<script>
-  function showUserLocation(map) {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.watchPosition(
-        // Success callback
-        function (position) {
-          const { latitude, longitude, heading } = position.coords;
+  <script>
+    function showUserLocation(map) {
+      if ('geolocation' in navigator) {
+        navigator.geolocation.watchPosition(
+          // Success callback
+          function (position) {
+            const { latitude, longitude, heading } = position.coords;
 
-          // Clear previous user location marker
-          if (map.userLocation) {
-            map.removeLayer(map.userLocation);
+            // Clear previous user location marker
+            if (map.userLocation) {
+              map.removeLayer(map.userLocation);
+            }
+
+            // Default arrow icon with rotation
+            const userLocation = L.marker([latitude, longitude], { rotationAngle: heading }).addTo(map);
+            userLocation.bindPopup("You are here!").openPopup();
+            
+            // flyTo for a smooth animated transition only for the first update
+            if (!map.userLocation) {
+              map.flyTo([latitude, longitude], 18);
+            }
+
+            // Store the user location marker in the map object for future updates
+            map.userLocation = userLocation;
+          },
+          // Error callback
+          function (error) {
+            // Communicate with the parent window to show alert.html
+            window.parent.postMessage("showAlert", "*");
           }
-
-          // Default arrow icon with rotation
-          const userLocation = L.marker([latitude, longitude], { rotationAngle: heading }).addTo(map);
-          userLocation.bindPopup("You are here!").openPopup();
-          
-          // flyTo for a smooth animated transition only for the first update
-          if (!map.userLocation) {
-            map.flyTo([latitude, longitude], 18);
-          }
-
-          // Store the user location marker in the map object for future updates
-          map.userLocation = userLocation;
-        },
-        // Error callback
-        function (error) {
-          // Communicate with the parent window to show alert.html
-          window.parent.postMessage("showAlert", "*");
-        }
-      );
-    } else {
-      // Communicate with the parent window to show alert.html
-      window.parent.postMessage("showAlert", "*");
+        );
+      } else {
+        // Communicate with the parent window to show alert.html
+        window.parent.postMessage("showAlert", "*");
+      }
     }
-  }
 
-  // Create the map
-  var map = L.map('map', {
-    center: [-37.721062, 145.049778],
-    zoom: 16,
-    maxZoom: 18,
-    minZoom: 16,
-    zoomControl: false // Disable default zoom control
-  });
+    // Create the map
+    var map = L.map('map', {
+      center: [-37.721062, 145.049778],
+      zoom: 16,
+      maxZoom: 18,
+      minZoom: 16,
+      zoomControl: false // Disable default zoom control
+    });
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
 
-  // Add zoom control to the map with customized position
-  var zoomControl = L.control.zoom({
-    position: 'topleft' // This will be overridden by manual positioning
-  }).addTo(map);
+    // Add zoom control to the map with customized position
+    var zoomControl = L.control.zoom({
+      position: 'topleft' // This will be overridden by manual positioning
+    }).addTo(map);
 
-  // Use manual positioning for the zoom control
-  var customZoomControl = zoomControl.getContainer();
-  customZoomControl.classList.add('custom-zoom-control');
-  map.getContainer().appendChild(customZoomControl);
+    // Use manual positioning for the zoom control
+    var customZoomControl = zoomControl.getContainer();
+    customZoomControl.classList.add('custom-zoom-control');
+    map.getContainer().appendChild(customZoomControl);
 
-  // Call the function to show user location
-  showUserLocation(map);
-  
-</script>
+    // Call the function to show user location
+    showUserLocation(map);
+
+    window.addEventListener('message', function (event) {
+      if (event.data.latitude && event.data.longitude) {
+        const { latitude, longitude, name, imageLink } = event.data;
+        map.flyTo([latitude, longitude], 18);
+
+        // Clear previous location marker
+        if (map.locationMarker) {
+          map.removeLayer(map.locationMarker);
+        }
+
+        // Create a new marker for the selected location with name and image
+        const customIcon = L.divIcon({
+          className: 'custom-marker',
+          html: `<div class="marker-container"><img src="${imageLink}" alt="${name}" class="marker-image"></div>`
+        });
+
+        map.locationMarker = L.marker([latitude, longitude], { icon: customIcon }).addTo(map);
+        map.locationMarker.bindPopup(name).openPopup();
+
+      }
+    });
+  </script>
 
 </body>
 </html>

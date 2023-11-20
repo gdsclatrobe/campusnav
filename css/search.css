@@ -91,6 +91,7 @@
     background-color: transparent;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
 }
 
 /* Styles for the Satelite View and Street View buttons */
@@ -133,6 +134,7 @@
     background-size: cover;
     border: none;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 /* Media query for smaller devices */

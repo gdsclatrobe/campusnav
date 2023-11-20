@@ -30,6 +30,12 @@
             <button id="find"></button>
         </div>
         <p id="findNameResult" type="text"></p>
+        <!-- Additional elements for latitude, longitude, image link, and comment -->
+        <p id="findLongitude" style="display: none;"></p>
+        <p id="findLatitude" style="display: none;"></p>
+        <p id="findImageLink" style="display: none;"></p>
+        <p id="findComment" style="display: none;"></p>
+        <p id="findImageLink" style="display: none;"></p>
     </div>
     
   </div>
@@ -63,7 +69,7 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
 
-    import { getDatabase, ref, get, set, child, update, remove }
+    import { getDatabase, ref, get, child, update }
     from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
 
     const db = getDatabase();
@@ -74,8 +80,12 @@
     var findLatitude = document.querySelector("#findLatitude");
     var findImageLink = document.querySelector("#findImageLink");
     var findComment = document.querySelector("#findComment");
-
     var findBtn = document.querySelector("#find");
+
+    function markLocationOnMap(latitude, longitude, name, imageLink) {
+      const mapIframe = document.querySelector('iframe[src="html/map.html"]');
+      mapIframe.contentWindow.postMessage({ latitude, longitude, name, imageLink }, '*');
+    }
 
     function FindData() {
       const searchTerm = findName.value.trim();
@@ -111,6 +121,9 @@
               findLatitude.innerHTML = firstResult.Latitude;
               findImageLink.innerHTML = firstResult.ImageLink;
               findComment.innerHTML = firstResult.Comment;
+
+              // Mark the location on the map
+              markLocationOnMap(firstResult.Latitude, firstResult.Longitude, firstResult.key, firstResult.ImageLink);
             } else {
               // No matching location found
               findNameResult.innerHTML = "No results found";
