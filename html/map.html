@@ -1,59 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../leaflet/leaflet.css">
-  <link rel="stylesheet" href="../css/map.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <link rel="stylesheet" href="../styles/map.css">
+
   <script src="../leaflet/leaflet.js"></script>
   <script src="../leaflet/leaflet.rotatedMarker.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
   <title>La Trobe University Map</title>
-  <style>
-    #map {
-      position: absolute;
-      font-family: 'Roboto', sans-serif;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-
-    .custom-zoom-control {
-      position: absolute;
-      top: 50%;
-      left: 10px;
-      transform: translateY(-50%);
-    }
-
-    .marker-container {
-      font-family: 'Roboto', sans-serif;
-      position: absolute;
-      background-color: white;
-      border-radius: 8px;
-      overflow: hidden;
-      padding: 10px;
-      box-shadow: 0 2px 4px rgba(1, 2, 1, 0.715);
-      width: auto;
-      height: auto;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -155%);
-    }
-
-    .marker-image {
-      
-      position: relative;
-      height: 100px;
-      width: auto;
-      border-radius: 8px;
-    }
-
-
-  </style>
 </head>
+
 <body>
 
-<div id="map"></div>
+  <div id="map"></div>
 
   <script>
     function showUserLocation(map) {
@@ -69,9 +33,11 @@
             }
 
             // Default arrow icon with rotation
-            const userLocation = L.marker([latitude, longitude], { rotationAngle: heading }).addTo(map);
+            const userLocation = L.marker([latitude, longitude], {
+              rotationAngle: heading
+            }).addTo(map);
             userLocation.bindPopup("You are here!").openPopup();
-            
+
             // flyTo for a smooth animated transition only for the first update
             if (!map.userLocation) {
               map.flyTo([latitude, longitude], 18);
@@ -79,6 +45,11 @@
 
             // Store the user location marker in the map object for future updates
             map.userLocation = userLocation;
+
+            // Check if destination is set, and draw the route
+            if (map.destinationMarker) {
+              calculateAndDisplayRoute(map.userLocation.getLatLng(), map.destinationMarker.getLatLng(), map, 14); // Adjust the zoom level as needed
+            }
           },
           // Error callback
           function (error) {
@@ -90,6 +61,26 @@
         // Communicate with the parent window to show alert.html
         window.parent.postMessage("showAlert", "*");
       }
+    }
+
+    function calculateAndDisplayRoute(start, end, map, zoom) {
+      // Remove previous route control if exists
+      if (map.routeControl) {
+        map.routeControl.removeFrom(map);
+      }
+
+      // Create route control and add it to the map
+      map.routeControl = L.Routing.control({
+        waypoints: [
+          L.latLng(start.lat, start.lng),
+          L.latLng(end.lat, end.lng)
+        ],
+        show: true, // Display the turn-by-turn directions
+        routeWhileDragging: true
+      }).addTo(map);
+
+      // Zoom out to the specified value
+      map.flyTo(start, zoom);
     }
 
     // Create the map
@@ -120,7 +111,12 @@
 
     window.addEventListener('message', function (event) {
       if (event.data.latitude && event.data.longitude) {
-        const { latitude, longitude, name, imageLink } = event.data;
+        const {
+          latitude,
+          longitude,
+          name,
+          imageLink
+        } = event.data;
         map.flyTo([latitude, longitude], 18);
 
         // Clear previous location marker
@@ -134,12 +130,27 @@
           html: `<div class="marker-container"><img src="${imageLink}" alt="${name}" class="marker-image"></div>`
         });
 
-        map.locationMarker = L.marker([latitude, longitude], { icon: customIcon }).addTo(map);
+        map.locationMarker = L.marker([latitude, longitude], {
+          icon: customIcon
+        }).addTo(map);
         map.locationMarker.bindPopup(name).openPopup();
 
+        // Update the destination marker for the route
+        map.destinationMarker = map.locationMarker;
+
+        // Remove previous route control if exists
+        if (map.routeControl) {
+          map.routeControl.removeFrom(map);
+        }
+
+        // Check if user location is available and draw the route
+        if (map.userLocation) {
+          calculateAndDisplayRoute(map.userLocation.getLatLng(), map.destinationMarker.getLatLng(), map, 16.5); // Adjust the zoom level as needed
+        }
       }
     });
   </script>
 
 </body>
+
 </html>
