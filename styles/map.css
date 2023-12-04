@@ -45,9 +45,5 @@ body, html {
   border-radius: 8px;
 }
 
-.leaflet-routing-container {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-}
+
 

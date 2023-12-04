@@ -6,12 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles/style.css">
   <link rel="stylesheet" href="styles/search.css">
+  <link rel="stylesheet" href="styles/nav.css">
   <link rel="icon" href="img/favicon.png" type="image/png">
 
   <title>CampusNav - GDSC LTU</title>
 </head>
 
 <body>
+
+  <div id="navigation">
+    <nav>
+        <a href="index.html" class="logo-link"><img src="img/nav_logo.png" alt="" class="logo" /></a>
+        <div class="hamburger" onclick="toggleNav()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact us</a></li>
+        </ul>
+    </nav>
+  </div>
 
   <div class="main_container" id="mainContainer">
 
@@ -43,12 +61,13 @@
   <img id="mainSearchImage" src="img/search_main.png" onclick="toggleContainer()" class="hidden">
 
   <div class="iframes">
-    <iframe id="nav" src="html/nav.html" title="Navigation" allowfullscreen></iframe>
     <iframe src="html/map.html" title="La Trobe University Map" allowfullscreen></iframe>
     <iframe id="footer" src="html/footer.html" title="Footer" allowfullscreen></iframe>
     <iframe id="alert" src="html/alert.html" title="Alert" style="display: none;" allowfullscreen></iframe>
   </div>
 
+  <script src="js/nav.js"></script>
+  <script src="js/script.js"></script>
   <script type="module">
     // Firebase SDKs
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
