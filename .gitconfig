@@ -1,0 +1,5 @@
+[user]
+	email = rshyalan@gmail.com
+	name = Shyalan
+[credential "https://erbenschell.iese.fraunhofer.de"]
+	provider = generic
