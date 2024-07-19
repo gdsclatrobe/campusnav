@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: '20.14.0'
       - run: npm install
-      - run: npm run build
+      - run: PUBLIC_URL=https://campusnav.gdscltu.com npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
