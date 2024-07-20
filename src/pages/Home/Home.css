@@ -17,3 +17,7 @@
 .navbar-container {
   pointer-events: auto;
 }
+
+.search-container {
+  pointer-events: auto;
+}
