@@ -13,3 +13,7 @@
 .footer-container {
   pointer-events: auto; /* Ensures the footer can be interacted with */
 }
+
+.navbar-container {
+  pointer-events: auto;
+}
