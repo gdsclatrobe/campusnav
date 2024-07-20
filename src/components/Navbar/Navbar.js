@@ -15,7 +15,7 @@ const Navbar = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/about" activeClassName="active">
+                <NavLink to="https://gdsc.community.dev/la-trobe-university-melbourne-australia/" activeClassName="active">
                   <i className="fas fa-user"></i> About
                 </NavLink>
               </li>
