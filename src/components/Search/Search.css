@@ -13,6 +13,7 @@
     height: 3rem;
     background-color: transparent;
     transform: translate(-50%, -50%) scale(1);
+    position: fixed;
 }
 
 .search-content {
@@ -135,7 +136,7 @@
     scrollbar-color: #F4B400 #f1f1f1;
 }
 
-@media (max-width: 820px), (max-height: 560px) {
+@media (max-width: 820px) {
     .search-container {
         top: 50%;
         left: 50%;
@@ -145,6 +146,24 @@
     .search-container.minimized {
         top: 15%;
         left: 80%;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@media (max-width: 600px), (max-height: 560px) {
+    .search-container {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    input, textarea, select {
+        font-size: 16px;
+    }  
+
+    .search-container.minimized {
+        top: 90%;
+        left: 50%;
         transform: translate(-50%, -50%) scale(1);
     }
 }
