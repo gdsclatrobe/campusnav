@@ -118,12 +118,12 @@ const MapView = ({ isMapFrozen, locationData }) => {
     }
 
     if (permissionStatus === 'granted' && userPosition) {
-      const userMarker = L.marker([userPosition.lat, userPosition.lng], { icon: userIcon }).addTo(map)
+      L.marker([userPosition.lat, userPosition.lng], { icon: userIcon })
+        .addTo(map)
         .bindPopup('You are here');
-    
     } else if (permissionStatus === 'denied') {
       alert('Unable to access live location, running in restricted mode');
-    }
+    }    
 
     return () => map.remove();
   }, [isMapFrozen, locationData, userPosition, permissionStatus]);
