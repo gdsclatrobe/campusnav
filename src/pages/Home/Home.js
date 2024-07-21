@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MapView from '../../components/MapView/MapView';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
@@ -6,10 +6,17 @@ import Search from '../../components/Search/Search';
 import './Home.css';
 
 const Home = () => {
+  const [isMapFrozen, setIsMapFrozen] = useState(true);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
+  const handleLocationSelect = (locationData) => {
+    setSelectedLocation(locationData);
+  };
+
   return (
     <div className="home-container">
-      <MapView />
-      <Search />
+      <Search onToggleFreeze={setIsMapFrozen} onLocationSelect={handleLocationSelect} />
+      <MapView isMapFrozen={isMapFrozen} locationData={selectedLocation} />
       <Navbar />
       <Footer />
     </div>

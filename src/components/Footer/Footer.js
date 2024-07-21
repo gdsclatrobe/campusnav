@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <div className="footer-container">
       <img src={logo} alt="S Logo" className="logo" />
-      <p className="copyright">©2023 Google Developer Student Club La Trobe University</p>
+      <p className="copyright">©2024 Google Developer Student Club La Trobe University</p>
     </div>
   );
 };
