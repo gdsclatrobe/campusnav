@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import logo from '../../img/nav_logo.png';
+import { FaBars, FaTimes } from 'react-icons/fa'; // Add this import for hamburger icons
 
 const Navbar = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navigate = useNavigate();
 
     const handleLogin = (e) => {
@@ -26,7 +28,10 @@ const Navbar = () => {
       <div className="navbar-container">
         <nav>
           <a href="/" className="logo-link"><img src={logo} alt="S Logo" className="logo" /></a>
-          <ul className="nav-links">
+          <div className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <FaTimes /> : <FaBars />} {/* Toggle between hamburger and close icon */}
+          </div>
+          <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
               <li>
                 <NavLink 
                   to="https://gdscltu.com" 

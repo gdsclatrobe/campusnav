@@ -53,14 +53,14 @@ const Search = ({ onToggleFreeze, onLocationSelect }) => {
             {!isMinimized && (
                 <div className="search-content">
                     <div className="search-header">
-                        <span>Location Search</span>
+                        <span>CampuNav Location Search</span>
                         <i className="fa-solid fa-down-left-and-up-right-to-center minimize-icon" onClick={handleMinimize}></i>
                     </div>
                     <div className="search-input-container">
                         <input
                             type="text"
                             className="search-input"
-                            placeholder="Enter text"
+                            placeholder="Search..."
                             value={searchTerm}
                             onChange={handleInputChange}
                         />

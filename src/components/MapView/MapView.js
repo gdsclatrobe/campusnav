@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import userlocationIcon from '../../img/user-icon.png'; // Ensure this path is correct
-import { GoogleMap, LoadScript, DirectionsService, DirectionsRenderer, MarkerF } from '@react-google-maps/api';
+import userlocationIcon from '../../img/user-icon.png';
+import { GoogleMap, LoadScript, DirectionsService, DirectionsRenderer, MarkerF, InfoWindowF } from '@react-google-maps/api';
+import mapOptions from './mapOptions'; // Import the map options
 
 // Define map container style
 const mapContainerStyle = {
@@ -15,25 +16,31 @@ const center = {
   lng: 145.050154
 };
 
-// Options for the Google Map
-const options = {
-  zoom: 15, // Default zoom level
-  minZoom: 15,
-  maxZoom: 18,
-  restriction: {
-    latLngBounds: {
-      north: -37.7050,
-      south: -37.7350,
-      west: 145.0350,
-      east: 145.0650
-    },
-    strictBounds: true
-  },
-  disableDefaultUI: true
-};
-
 // Static libraries array
 const libraries = ['places'];
+
+// Inline style for InfoWindow content
+const infoWindowStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  fontSize: '14px',
+  padding: '5px',
+};
+
+// Inline style for close button
+const closeButtonStyle = {
+  cursor: 'pointer',
+  marginLeft: '10px',
+  fontWeight: 'bold',
+  color: '#ff0000'
+};
+
+// Add CSS to hide the default close button
+const hideDefaultCloseButtonStyle = `
+  .gm-ui-hover-effect {
+    display: none !important;
+  }
+`;
 
 const MapView = ({ isMapFrozen, locationData }) => {
   const [userPosition, setUserPosition] = useState(null);
@@ -41,6 +48,7 @@ const MapView = ({ isMapFrozen, locationData }) => {
   const [directions, setDirections] = useState(null);
   const [mapInstance, setMapInstance] = useState(null);
   const [routeSet, setRouteSet] = useState(false); // Track if route has been set
+  const [showInfoWindow, setShowInfoWindow] = useState(false); // State to control InfoWindow visibility
 
   useEffect(() => {
     const handleLocationSuccess = (position) => {
@@ -114,7 +122,7 @@ const MapView = ({ isMapFrozen, locationData }) => {
   useEffect(() => {
     if (locationData) {
       if (mapInstance) {
-        mapInstance.setZoom(15); // Adjust zoom level if needed
+        mapInstance.setZoom(15); 
         mapInstance.panTo({ lat: Number(locationData.Latitude), lng: Number(locationData.Longitude) });
       }
       // Clear old directions
@@ -134,8 +142,8 @@ const MapView = ({ isMapFrozen, locationData }) => {
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={center}
-        zoom={15} // Default zoom level
-        options={options}
+        zoom={15}
+        options={mapOptions} // Use the imported map options
         onLoad={onMapLoad}
       >
         {locationData && (
@@ -149,9 +157,29 @@ const MapView = ({ isMapFrozen, locationData }) => {
             position={userPosition}
             icon={{
               url: userlocationIcon,
-              scaledSize: new window.google.maps.Size(28, 32)
+              scaledSize: new window.google.maps.Size(30, 38)
             }}
-          />
+            onClick={() => setShowInfoWindow(!showInfoWindow)} // Toggle InfoWindow on marker click
+          >
+            {showInfoWindow && (
+              <>
+                <style>{hideDefaultCloseButtonStyle}</style>
+                <InfoWindowF
+                  position={userPosition} // Provide position prop
+                >
+                  <div style={infoWindowStyle}>
+                    <span>You are here</span>
+                    <span 
+                      style={closeButtonStyle} 
+                      onClick={() => setShowInfoWindow(false)} 
+                    >
+                      &times;
+                    </span>
+                  </div>
+                </InfoWindowF>
+              </>
+            )}
+          </MarkerF>
         )}
 
         {userPosition && locationData && !routeSet && (

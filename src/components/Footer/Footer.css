@@ -42,7 +42,24 @@
   }
 }
 
-@media (max-width: 820px), (max-height: 560px) {
+@media (max-width: 600px) {
+  .footer-container {
+    width: 70%;
+    padding: 4px 8px;
+    margin-bottom: 10px;
+  }
+
+  .footer-container .logo {
+    width: 25px;
+    margin-right: 4px;
+  }
+
+  .footer-container .copyright {
+    font-size: 10px;
+  }
+}
+
+@media (max-height: 500px) {
   .footer-container {
     display: none  
   }
