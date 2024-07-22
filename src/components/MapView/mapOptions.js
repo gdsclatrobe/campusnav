@@ -83,7 +83,7 @@ const mapOptions = {
             featureType: 'landscape.man_made.building',
             elementType: 'geometry.fill',
             stylers: [
-                { color: '#ffe18c' }
+                { color: '#939393' }
             ]
         },
         {

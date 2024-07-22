@@ -14,6 +14,6 @@ body {
   height: 100%;
 }
 
-.footer-container, .navbar-container, .search-container {
+.footer-container, .navbar-container, .search-container, .markerdetails-container {
   pointer-events: auto; /* Ensures they can be interacted with */
 }

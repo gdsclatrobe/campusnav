@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import logo from '../../img/nav_logo.png';
-import { FaBars, FaTimes } from 'react-icons/fa'; // Add this import for hamburger icons
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import userlocationIcon from '../../img/user-icon.png';
 import { GoogleMap, LoadScript, DirectionsService, DirectionsRenderer, MarkerF, InfoWindowF } from '@react-google-maps/api';
-import mapOptions from './mapOptions'; // Import the map options
+import mapOptions from './mapOptions';
 
 // Define map container style
 const mapContainerStyle = {
@@ -127,7 +127,7 @@ const MapView = ({ isMapFrozen, locationData }) => {
       }
       // Clear old directions
       setDirections(null);
-      setRouteSet(false); // Reset route set status
+      setRouteSet(false);
     }
   }, [locationData, mapInstance]);
 
