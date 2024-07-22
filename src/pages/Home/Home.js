@@ -13,9 +13,13 @@ const Home = () => {
     setSelectedLocation(locationData);
   };
 
+  const handleToggleFreeze = (freeze) => {
+    setIsMapFrozen(freeze);
+  };
+
   return (
     <div className="home-container">
-      <Search onToggleFreeze={setIsMapFrozen} onLocationSelect={handleLocationSelect} />
+      <Search onToggleFreeze={handleToggleFreeze} onLocationSelect={handleLocationSelect} />
       <MapView isMapFrozen={isMapFrozen} locationData={selectedLocation} />
       <Navbar />
       <Footer />

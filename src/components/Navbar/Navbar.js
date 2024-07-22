@@ -28,17 +28,26 @@ const Navbar = () => {
           <a href="/" className="logo-link"><img src={logo} alt="S Logo" className="logo" /></a>
           <ul className="nav-links">
               <li>
-                <NavLink to="https://gdscltu.com" activeClassName="active">
+                <NavLink 
+                  to="https://gdscltu.com" 
+                  className={({ isActive }) => (isActive ? "active" : undefined)} 
+                >
                   <i className="fas fa-home"></i> Home
                 </NavLink>
               </li>
               <li>
-                <NavLink to="https://gdsc.community.dev/la-trobe-university-melbourne-australia/" activeClassName="active">
+                <NavLink 
+                  to="https://gdsc.community.dev/la-trobe-university-melbourne-australia/" 
+                  className={({ isActive }) => (isActive ? "active" : undefined)}
+                >
                   <i className="fas fa-user"></i> About
                 </NavLink>
               </li>
               <li>
-                <NavLink to="https://gdscltu.com" activeClassName="active">
+                <NavLink 
+                  to="https://gdscltu.com" 
+                  className={({ isActive }) => (isActive ? "active" : undefined)}
+                >
                   <i className="fas fa-life-ring"></i> Support
                 </NavLink>
               </li>
