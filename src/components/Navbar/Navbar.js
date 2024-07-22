@@ -57,7 +57,7 @@ const Navbar = () => {
                 </NavLink>
               </li>
               <li>
-                <a href="#" onClick={handleLogin}>
+                <a href="javascript:void(0);" onClick={handleLogin}>
                   <i className="fas fa-sign-in-alt"></i> Login
                 </a>
               </li>
