@@ -3,6 +3,7 @@ import MapView from '../../components/MapView/MapView';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 import Search from '../../components/Search/Search';
+import MarkerDetails from '../../components/MarkerDetails/MarkerDetails';
 import './Home.css';
 
 const Home = () => {
@@ -13,9 +14,14 @@ const Home = () => {
     setSelectedLocation(locationData);
   };
 
+  const handleToggleFreeze = (freeze) => {
+    setIsMapFrozen(freeze);
+  };
+
   return (
     <div className="home-container">
-      <Search onToggleFreeze={setIsMapFrozen} onLocationSelect={handleLocationSelect} />
+      <Search onToggleFreeze={handleToggleFreeze} onLocationSelect={handleLocationSelect} />
+      <MarkerDetails locationData={selectedLocation} />
       <MapView isMapFrozen={isMapFrozen} locationData={selectedLocation} />
       <Navbar />
       <Footer />

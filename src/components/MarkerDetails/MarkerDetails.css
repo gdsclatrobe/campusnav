@@ -1,0 +1,105 @@
+.glowing-circle {
+    width: 3rem;
+    height: 3rem;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: glowing 1.5s infinite;
+    transition: all 0.3s ease-in-out;
+    position: absolute;
+    left: 10%;
+    top: 18%;
+    transform: translate(-50%, -50%);
+    z-index: 1100;
+    cursor: pointer;
+}
+
+.glowing-circle .arrow-icon {
+    font-size: 20px;
+    color: #4285f4;
+}
+
+@keyframes glowing {
+    0% {
+        box-shadow: 0 0 5px rgba(66, 133, 244, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(66, 133, 244, 0.6);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(66, 133, 244, 0.4);
+    }
+}
+
+.curved-rectangle {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.5);
+    min-width: 300px;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.curved-rectangle.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.rectangle-header {
+    display: flex;
+    align-items: center;
+    top: 0%;
+    width: 100%;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #4285F4;
+    margin-top: -16px;
+    color: white;
+    border-radius: 10px 10px 0 0;
+    position: relative;
+}
+
+.header-icon {
+    font-size: 20px;
+    margin-right: 0.5rem;
+}
+
+.header-text {
+    font-size: 16px;
+}
+
+.curved-rectangle .close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+.location-image {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.curved-rectangle.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
