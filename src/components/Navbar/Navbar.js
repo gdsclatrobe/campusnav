@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-script-url */
+
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './Navbar.css';
@@ -57,7 +60,7 @@ const Navbar = () => {
                 </NavLink>
               </li>
               <li>
-                <a href="javascript:void(0);" onClick={handleLogin}>
+                <a href="javascript:void(0);" onClick={handleLogin} /* eslint-disable-line jsx-a11y/anchor-is-valid, no-script-url */>
                   <i className="fas fa-sign-in-alt"></i> Login
                 </a>
               </li>
